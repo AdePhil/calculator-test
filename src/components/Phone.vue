@@ -61,6 +61,7 @@
   width: 260px;
   margin-left: 10px;
   margin-top: 50px;
+  font-family: "Digital-7", sans-serif;
 }
 
 .lock_btn {

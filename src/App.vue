@@ -4,7 +4,9 @@
       <Screen>{{ lastNumber }}</Screen>
       <div class="expression">{{ value }}</div>
       <div class="buttons">
-        <Button :bg="colors.dark" className="span2" @click="test">CE</Button>
+        <Button :bg="colors.dark" className="span2" @click="handleClick"
+          >%</Button
+        >
         <Button :bg="colors.dark" @click="clear">C</Button>
         <Button :bg="colors.dark" @click="negate">-M</Button>
 
@@ -69,13 +71,13 @@ export default {
     },
   },
   methods: {
-    test() {},
     handleClick(e) {
       const text = e.target.innerText;
       //don't allow two decimal points
 
       //check math functions
       this.checkMathFunctions();
+
       if (text != "=" && text != "C") {
         console.log("here", this.value + `${text}`);
         this.value += `${text}`;
@@ -87,103 +89,143 @@ export default {
         this.multiply();
       } else if (text === "/") {
         this.divide();
+      } else if (text === "%") {
+        this.modulus();
       }
     },
     checkMathFunctions() {
-      // const regex = /^[a-z]*/i;
-      if (
-        this.value.startsWith("c") ||
-        this.value.startsWith("s") ||
-        this.value.startsWith("c") ||
-        this.value.startsWith("t") ||
-        this.value.startsWith("l") ||
-        this.value.startsWith("√") ||
-        this.value.startsWith("(") ||
-        this.value.startsWith("e")
-      ) {
+      const regex = /^[-0-9]+/g;
+      // check if it's a math function
+      if (!regex.test(this.value)) {
         this.value = this.lastNumber === 0 ? "" : `${this.lastNumber}`;
+        console.log("checkMathFunctions");
       }
     },
     multiply() {
-      this.value += " * ";
+      this.value += "*";
     },
     divide() {
-      this.value += " / ";
+      this.value += "/";
     },
     plus() {
-      this.value += " + ";
+      this.value += "+";
     },
     minus() {
-      this.value += " - ";
+      this.value += "-";
+    },
+    modulus() {
+      this.value += "%";
     },
     equals() {
-      this.value = `${eval(this.value)}`;
-      this.lastNumber = this.value;
+      try {
+        const value = eval(this.value);
+        this.value = `${value}`;
+        this.lastNumber = this.value;
+      } catch (error) {
+        console.log("invalid expression");
+      }
     },
     clear() {
       this.value = "";
       this.lastNumber = 0;
     },
     sin() {
-      this.checkMathFunctions();
-      const value = this.value || 0;
-      const text = `sin(${value})`;
-      this.lastNumber = Math.sin(eval(value) || 0);
-      this.value = text;
+      try {
+        this.checkMathFunctions();
+        const value = this.value || 0;
+        const text = `sin(${value})`;
+        this.lastNumber = Math.sin(eval(value) || 0);
+        this.value = text;
+      } catch (error) {
+        console.log("invalid expression");
+      }
     },
     cos() {
-      this.checkMathFunctions();
-      const value = this.value || 0;
-      const text = `cos(${value})`;
-      this.lastNumber = Math.cos(eval(value));
-      this.value = text;
+      try {
+        this.checkMathFunctions();
+        const value = this.value || 0;
+        const text = `cos(${value})`;
+        this.lastNumber = Math.cos(eval(value));
+        this.value = text;
+      } catch (error) {
+        console.log("invalid expression");
+      }
     },
     tan() {
-      this.checkMathFunctions();
-      const text = `tan(${this.value})`;
-      this.lastNumber = Math.tan(eval(this.value));
-      this.value = text;
+      try {
+        this.checkMathFunctions();
+        const value = this.value || 0;
+        const text = `tan(${value})`;
+        this.lastNumber = Math.tan(eval(value));
+        this.value = text;
+      } catch (error) {
+        console.log("invalid expression");
+      }
     },
     log() {
-      this.checkMathFunctions();
-      const value = this.value || 0;
-      const text = `log(${value})`;
-      this.lastNumber = Math.log10(eval(value));
-      this.value = text;
+      try {
+        this.checkMathFunctions();
+        const value = this.value || 0;
+        const text = `log(${value})`;
+        this.lastNumber = Math.log10(eval(value));
+        this.value = text;
+      } catch (error) {
+        console.log("invalid expression");
+      }
     },
     log2() {
-      this.checkMathFunctions();
-      const value = this.value || 0;
-      const text = `log2(${value})`;
-      this.lastNumber = Math.log2(eval(value));
-      this.value = text;
+      try {
+        this.checkMathFunctions();
+        const value = this.value || 0;
+        const text = `log2(${value})`;
+        this.lastNumber = Math.log2(eval(value));
+        this.value = text;
+      } catch (error) {
+        console.log("invalid expression");
+      }
     },
     square() {
-      this.checkMathFunctions();
-      const value = this.value || 0;
-      const text = `(${value})^2`;
-      this.lastNumber = Math.pow(eval(value), 2);
-      this.value = text;
+      try {
+        this.checkMathFunctions();
+        const value = this.value || 0;
+        const text = `(${value})^2`;
+        this.lastNumber = Math.pow(eval(value), 2);
+        this.value = text;
+      } catch (error) {
+        console.log("invalid expression");
+      }
     },
     sqrt() {
-      this.checkMathFunctions();
-      const value = this.value || 0;
-      const text = `√(${value})`;
-      this.lastNumber = Math.sqrt(eval(value));
-      this.value = text;
+      try {
+        this.checkMathFunctions();
+        const value = this.value || 0;
+        const text = `√(${value})`;
+        this.lastNumber = Math.sqrt(eval(value));
+        this.value = text;
+      } catch (error) {
+        console.log("invalid expression");
+      }
     },
     exp() {
-      this.checkMathFunctions();
-      const value = this.value || 0;
-      const text = `e^(${value})`;
-      this.lastNumber = Math.exp(eval(value));
-      this.value = text;
+      try {
+        this.checkMathFunctions();
+        const value = this.value || 0;
+        const text = `e^(${value})`;
+        this.lastNumber = Math.exp(eval(value));
+        this.value = text;
+      } catch (error) {
+        console.log("invalid expression");
+      }
     },
     negate() {
-      this.checkMathFunctions();
-      const value = this.value || 0;
-      this.lastNumber = eval(value) * -1;
-      this.value = `${this.lastNumber}`;
+      try {
+        this.checkMathFunctions();
+        const value = this.value || 0;
+        this.lastNumber = eval(value) * -1;
+        this.value = `${this.lastNumber}`;
+      } catch (error) {
+        console.log("invalid expression");
+      }
     },
   },
 };
@@ -225,5 +267,9 @@ body {
   width: 100%;
   height: 70px;
   font-size: 12px;
+  font-family: "roboto slab";
+  font-weight: normal;
+  /* font-family: "Digital-7", sans-serif; */
+  padding: 0 8px;
 }
 </style>
