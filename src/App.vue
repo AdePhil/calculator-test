@@ -73,13 +73,11 @@ export default {
   methods: {
     handleClick(e) {
       const text = e.target.innerText;
-      //don't allow two decimal points
 
       //check math functions
       this.checkMathFunctions();
 
       if (text != "=" && text != "C") {
-        console.log("here", this.value + `${text}`);
         this.value += `${text}`;
       } else if (text === "=") {
         this.equals();
@@ -95,10 +93,9 @@ export default {
     },
     checkMathFunctions() {
       const regex = /^[-0-9]+/g;
-      // check if it's a math function
+      // check if it's a starts with a number
       if (!regex.test(this.value)) {
         this.value = this.lastNumber === 0 ? "" : `${this.lastNumber}`;
-        console.log("checkMathFunctions");
       }
     },
     multiply() {
